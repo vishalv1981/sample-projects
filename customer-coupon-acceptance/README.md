@@ -1,6 +1,7 @@
 
 # Coupon Analysis Project
 
+
 ## Overview
 
 This project involves analyzing a dataset containing information about various coupon types and the behavior of drivers in accepting these coupons. The goal is to identify patterns and correlations that influence whether a driver is likely to accept a coupon.
