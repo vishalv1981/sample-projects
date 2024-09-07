@@ -1,6 +1,7 @@
 # Scope of capstone1
 The project has implemented the LR for the sentiment analysis. As part of the Capstone2 will extend to **Random Forest model** and also would try the **Vader model for sentiment analysis**
 The project uses Stemming and has few drawbacks. will implement the **Lemmatization for sentiment analysis**
+The code is completed and is in the **changeswithlemmatization.py** and tested partially. Will integrate into a Jupyter notebook
 
 
 
