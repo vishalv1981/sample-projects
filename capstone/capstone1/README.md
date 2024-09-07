@@ -1,88 +1,96 @@
-Sentiment Analysis with Multiple Logistic Regression Models
-Project Overview
+# Sentiment Analysis with Multiple Logistic Regression Models
+
+## Project Overview
 This project implements various Logistic Regression models along with RandomForest for sentiment analysis on customer reviews. The dataset is preprocessed, cleaned, and vectorized using techniques such as Bag of Words (BoW), TF-IDF, and Word2Vec to extract features. These features are then fed into the models to predict sentiment.
 
-Key Features:
-Logistic Regression and RandomForest Classifier
-Evaluation Metrics:
-AUC (Area Under the Curve)
-ROC (Receiver Operating Characteristic) Curve
-Confusion Matrix
-Misclassification Error
-Vectorization Techniques:
-Bag of Words (BoW)
-TF-IDF
-Word2Vec
-TF-IDF Weighted Word2Vec
-Data Preprocessing, Cleaning, and Text Processing
-Data Preprocessing and Cleanup
-The dataset was sourced from an SQLite database containing customer reviews. The dataset underwent several cleaning and preprocessing steps before being used in the model training and evaluation process.
+## Key Features:
+- Logistic Regression and RandomForest Classifier
+- Evaluation Metrics:
+  - AUC (Area Under the Curve)
+  - ROC (Receiver Operating Characteristic) Curve
+  - Confusion Matrix
+  - Misclassification Error
 
-Steps for Data Cleanup:
-Filtering Reviews:
+## Vectorization Techniques:
+- Bag of Words (BoW)
+- TF-IDF
+- Word2Vec
+- TF-IDF Weighted Word2Vec
 
-Only reviews with a score different from 3 were selected for analysis. Reviews with scores greater than 3 were labeled as "positive" (1), while reviews with scores less than 3 were labeled as "negative" (0).
-Neutral reviews (score = 3) were excluded to prevent ambiguity.
-Data Deduplication:
+## Data Preprocessing, Cleaning, and Text Processing
 
-Duplicate reviews were removed based on multiple fields such as UserId, ProfileName, Time, and Text.
-Helpfulness Metric Validation:
+### Data Preprocessing and Cleanup
+The dataset was sourced from an SQLite database containing customer reviews. Several cleaning and preprocessing steps were applied before the model training and evaluation process.
 
-Reviews where HelpfulnessNumerator exceeded HelpfulnessDenominator were removed to ensure valid data.
-Dataset Size After Cleanup:
+#### Steps for Data Cleanup:
 
-After filtering, deduplication, and validation, the dataset contained a balanced set of positive and negative reviews.
-Data Visualization:
+1. **Filtering Reviews:**
+   - Only reviews with a score different from 3 were selected for analysis. Reviews with scores greater than 3 were labeled as "positive" (1), while reviews with scores less than 3 were labeled as "negative" (0).
+   - Neutral reviews (score = 3) were excluded to prevent ambiguity.
 
-Seaborn count plots were used to visualize the distribution of positive and negative reviews in the cleaned dataset.
-Text Processing
+2. **Data Deduplication:**
+   - Duplicate reviews were removed based on multiple fields such as UserId, ProfileName, Time, and Text.
+
+3. **Helpfulness Metric Validation:**
+   - Reviews where the HelpfulnessNumerator exceeded HelpfulnessDenominator were removed to ensure valid data.
+
+4. **Dataset Size After Cleanup:**
+   - After filtering, deduplication, and validation, the dataset contained a balanced set of positive and negative reviews.
+
+5. **Data Visualization:**
+   - Seaborn count plots were used to visualize the distribution of positive and negative reviews in the cleaned dataset.
+
+### Text Processing
 To ensure high-quality textual features, various text preprocessing techniques were applied to clean and standardize the review text:
 
-1. HTML Tag Removal
-The text data often contained HTML tags that needed to be removed. Using regex and BeautifulSoup, reviews containing HTML tags were identified and cleaned.
+1. **HTML Tag Removal:**
+   - HTML tags were removed using regex and BeautifulSoup.
 
-2. Stopwords Removal
-A customized list of stopwords was created based on the NLTK stopwords corpus. Certain stopwords such as negations ('not', 'don't', etc.) were retained to preserve sentiment context, while others were removed to reduce noise in the data.
+2. **Stopwords Removal:**
+   - A customized list of stopwords was created using the NLTK stopwords corpus. Negations (e.g., "not", "don't") were retained, while other stopwords were removed to reduce noise.
 
-3. Stemming
-A Snowball Stemmer was initialized to stem words in the reviews, reducing words to their base forms. For example, 'tasty' becomes 'tasti'.
+3. **Stemming:**
+   - A Snowball Stemmer was used to reduce words to their base forms (e.g., "tasty" -> "tasti").
 
-4. Contraction Expansion
-The reviews often contained contractions like 'won't', 'can't', etc., which were expanded to their full forms (e.g., 'won't' -> 'will not'). This step ensured better accuracy during model training by avoiding confusion between different forms of words.
+4. **Contraction Expansion:**
+   - Contractions (e.g., "won't" -> "will not") were expanded for better accuracy during model training.
 
-5. Punctuation and Special Character Removal
-Punctuation and special characters were removed using regular expressions, keeping only alphanumeric characters.
+5. **Punctuation and Special Character Removal:**
+   - Punctuation and special characters were removed using regular expressions, leaving only alphanumeric characters.
 
-6. Handling URLs
-Reviews often contained URLs, which were irrelevant to sentiment analysis. These URLs were removed using regex patterns to clean the text.
+6. **Handling URLs:**
+   - URLs were removed using regex patterns.
 
-7. Preprocessing Function
-A unified preprocess_sentence function was created to perform all the steps mentioned above. This function removes URLs, expands contractions, cleans HTML tags, removes stopwords, and normalizes the text for model training.
+7. **Preprocessing Function:**
+   - A unified `preprocess_sentence` function was created to perform all the steps above.
 
-8. Applying the Preprocessing Function
-The preprocess_sentence function was applied to the review text and summary columns, creating new cleaned versions of these fields in the dataset for use in modeling.
+8. **Applying the Preprocessing Function:**
+   - The `preprocess_sentence` function was applied to the review text and summary columns to create cleaned versions for modeling.
 
-9. Time Conversion
-The timestamp in the dataset was converted to a readable datetime format, using pd.to_datetime with a time unit of seconds, for consistency.
+9. **Time Conversion:**
+   - The timestamp was converted to a readable datetime format using `pd.to_datetime` for consistency.
 
-Feature Engineering
-The project uses different vectorization techniques to convert the processed text data into numerical features:
+## Feature Engineering
+Different vectorization techniques were used to convert the processed text data into numerical features:
+- Bag of Words (BoW)
+- TF-IDF
+- Word2Vec
+- TF-IDF Weighted Word2Vec
 
-Bag of Words (BoW)
-TF-IDF
-Word2Vec
-TF-IDF Weighted Word2Vec
-These vectorized features are fed into the Logistic Regression models for training.
+These vectorized features were fed into the Logistic Regression models for training.
 
-Model Training and Evaluation
-Multiple Logistic Regression models are trained with different regularization strengths. The project includes detailed evaluation metrics such as AUC, ROC curves, confusion matrix, and misclassification error.
+## Model Training and Evaluation
+Multiple Logistic Regression models were trained with different regularization strengths. The project includes detailed evaluation metrics such as:
+- AUC
+- ROC curves
+- Confusion matrix
+- Misclassification error
 
-Additionally, a RandomForest Classifier is included as a comparative model, with hyperparameter tuning using GridSearchCV.
+Additionally, a RandomForest Classifier was included as a comparative model with hyperparameter tuning using `GridSearchCV`.
 
-Results
-The results are evaluated based on:
-
-AUC Score: Provides insight into the model's ability to differentiate between positive and negative sentiments.
-ROC Curve: Visualizes the performance of the classification models at different threshold settings.
-Confusion Matrix: Displays true positives, true negatives, false positives, and false negatives.
-Misclassification Error: Measures the rate of incorrect predictions.
+## Results
+The results were evaluated based on the following metrics:
+- **AUC Score:** Provides insight into the model's ability to differentiate between positive and negative sentiments.
+- **ROC Curve:** Visualizes the performance of the classification models at different threshold settings.
+- **Confusion Matrix:** Displays true positives, true negatives, false positives, and false negatives.
+- **Misclassification Error:** Measures the rate of incorrect predictions.
