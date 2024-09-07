@@ -3,7 +3,7 @@ The project has implemented the LR for the sentiment analysis. As part of the Ca
 The project uses Stemming and has few drawbacks. will implement the **Lemmatization for sentiment analysis**
 The code is completed and is in the **changeswithlemmatization.py** and tested partially. Will integrate into a Jupyter notebook
 
-
+#
 
 # Impact of Lemmatization on Sentiment Analysis Models
 
