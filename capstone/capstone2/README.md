@@ -1,96 +1,98 @@
-# Sentiment Analysis with Multiple Logistic Regression Models
+# Logistic Regression for Amazon Fine Food Reviews
 
-## Project Overview
-This project implements various Logistic Regression models along with RandomForest for sentiment analysis on customer reviews. The dataset is preprocessed, cleaned, and vectorized using techniques such as Bag of Words (BoW), TF-IDF, and Word2Vec to extract features. These features are then fed into the models to predict sentiment.
+## Overview
 
-## Key Features:
-- Logistic Regression and RandomForest Classifier
-- Evaluation Metrics:
-  - AUC (Area Under the Curve)
-  - ROC (Receiver Operating Characteristic) Curve
-  - Confusion Matrix
-  - Misclassification Error
+This project performs sentiment analysis using logistic regression on the Amazon Fine Food Reviews dataset. The main objective is to classify user reviews as either positive or negative based on the review text. The dataset contains over 500,000 reviews, and the sentiment is derived from the `Score` column, which is converted into binary classes (positive or negative).
 
-## Vectorization Techniques:
-- Bag of Words (BoW)
-- TF-IDF
-- Word2Vec
-- TF-IDF Weighted Word2Vec
+## Dataset
 
-## Data Preprocessing, Cleaning, and Text Processing
+- **Source**: [Amazon Fine Food Reviews Dataset on Kaggle](https://www.kaggle.com/snap/amazon-fine-food-reviews)
+- **Number of Reviews**: 568,454
+- **Number of Users**: 256,059
+- **Number of Products**: 74,258
+- **Review Time Period**: October 1999 - October 2012
 
-### Data Preprocessing and Cleanup
-The dataset was sourced from an SQLite database containing customer reviews. Several cleaning and preprocessing steps were applied before the model training and evaluation process.
+### Data Fields:
+1. **Id**: Row ID
+2. **ProductId**: Unique identifier for each product
+3. **UserId**: Unique identifier for each user
+4. **ProfileName**: Name of the user
+5. **HelpfulnessNumerator**: Number of users who found the review helpful
+6. **HelpfulnessDenominator**: Total number of users who rated the review's helpfulness
+7. **Score**: Rating between 1 and 5
+8. **Time**: Timestamp of the review
+9. **Summary**: Brief summary of the review
+10. **Text**: Full text of the review
 
-#### Steps for Data Cleanup:
+### Objective
 
-1. **Filtering Reviews:**
-   - Only reviews with a score different from 3 were selected for analysis. Reviews with scores greater than 3 were labeled as "positive" (1), while reviews with scores less than 3 were labeled as "negative" (0).
-   - Neutral reviews (score = 3) were excluded to prevent ambiguity.
+The goal is to determine whether a review is positive or negative based on its score:
+- **Positive**: Reviews with a score of 4 or 5.
+- **Negative**: Reviews with a score of 1 or 2.
+- **Neutral**: Reviews with a score of 3 are ignored.
 
-2. **Data Deduplication:**
-   - Duplicate reviews were removed based on multiple fields such as UserId, ProfileName, Time, and Text.
+## Key Steps
 
-3. **Helpfulness Metric Validation:**
-   - Reviews where the HelpfulnessNumerator exceeded HelpfulnessDenominator were removed to ensure valid data.
+### 1. Data Preprocessing
+- **Cleaning**: Removed null values and irrelevant fields.
+- **Binary Labeling**: Converted the `Score` into positive/negative sentiment.
+- **Text Processing**:
+  - Applied tokenization, stopword removal, and stemming/lemmatization.
+  - Used Bag of Words (BoW) and TF-IDF to convert text into numerical format.
 
-4. **Dataset Size After Cleanup:**
-   - After filtering, deduplication, and validation, the dataset contained a balanced set of positive and negative reviews.
+### 2. Classifiers and Models
 
-5. **Data Visualization:**
-   - Seaborn count plots were used to visualize the distribution of positive and negative reviews in the cleaned dataset.
+#### 2.1 Logistic Regression
+- **Model Overview**: Logistic regression is a linear classifier used in this project to predict the sentiment of reviews (positive or negative). It was chosen due to its simplicity and effectiveness for binary classification tasks.
+- **Implementation**:
+  - The review text was vectorized using Bag of Words and TF-IDF methods.
+  - Logistic Regression was trained using these vectorized features, with cross-validation applied for robust performance.
+- **Hyperparameter Tuning**:
+  - The model’s regularization parameter `C` was optimized using grid search.
+  - Various values of `C` were tested to find the best trade-off between bias and variance.
 
-### Text Processing
-To ensure high-quality textual features, various text preprocessing techniques were applied to clean and standardize the review text:
+#### 2.2 Random Forest (Optional Model for Comparison)
+- **Model Overview**: Random Forest is an ensemble classifier that operates by building multiple decision trees during training and outputting the class that is the majority vote of the trees. This was used as an additional classifier to compare its performance with logistic regression.
+- **Implementation**:
+  - Random Forest was trained using the same vectorized features.
+  - Cross-validation was applied to check for overfitting and to ensure model generalization.
+- **Hyperparameter Tuning**:
+  - Parameters like the number of estimators (trees) and the maximum depth of the trees were tuned using grid search.
 
-1. **HTML Tag Removal:**
-   - HTML tags were removed using regex and BeautifulSoup.
+### 3. Model Building
+- **Logistic Regression**: 
+  - Chosen for its simplicity and interpretability.
+  - Used to classify the review text into positive or negative categories.
+  - Hyperparameter tuning was applied to optimize the model.
+  - Cross-validation was used to assess model generalization.
+  
+- **Random Forest** (optional comparison model):
+  - Used as a secondary model to compare performance with Logistic Regression.
+  - The Random Forest model tends to perform better with large and complex datasets, though it can be slower and harder to interpret.
 
-2. **Stopwords Removal:**
-   - A customized list of stopwords was created using the NLTK stopwords corpus. Negations (e.g., "not", "don't") were retained, while other stopwords were removed to reduce noise.
+### 4. Evaluation
+- **Metrics**: 
+  - Accuracy, precision, recall, and F1-score were used to evaluate model performance.
+  - A confusion matrix was plotted to visualize true positives, false positives, etc.
+  - ROC curves were plotted to understand model discrimination power.
+- **Error Analysis**:
+  - Misclassification errors were analyzed to identify areas for improvement.
 
-3. **Stemming:**
-   - A Snowball Stemmer was used to reduce words to their base forms (e.g., "tasty" -> "tasti").
+### 5. Insights & Recommendations
+- **Model Performance**: 
+  - The logistic regression model achieved satisfactory results, and Random Forest provided a useful comparison, offering insight into the trade-offs between simplicity (Logistic Regression) and complexity (Random Forest).
+  - The logistic regression model is more interpretable and faster to train, but Random Forest may provide better performance in complex, high-dimensional data.
+  
+## Project Setup
 
-4. **Contraction Expansion:**
-   - Contractions (e.g., "won't" -> "will not") were expanded for better accuracy during model training.
+### Prerequisites
 
-5. **Punctuation and Special Character Removal:**
-   - Punctuation and special characters were removed using regular expressions, leaving only alphanumeric characters.
+- Python 3.x
+- Libraries: `numpy`, `pandas`, `scikit-learn`, `matplotlib`, `nltk`
 
-6. **Handling URLs:**
-   - URLs were removed using regex patterns.
+### Installation
 
-7. **Preprocessing Function:**
-   - A unified `preprocess_sentence` function was created to perform all the steps above.
-
-8. **Applying the Preprocessing Function:**
-   - The `preprocess_sentence` function was applied to the review text and summary columns to create cleaned versions for modeling.
-
-9. **Time Conversion:**
-   - The timestamp was converted to a readable datetime format using `pd.to_datetime` for consistency.
-
-## Feature Engineering
-Different vectorization techniques were used to convert the processed text data into numerical features:
-- Bag of Words (BoW)
-- TF-IDF
-- Word2Vec
-- TF-IDF Weighted Word2Vec
-
-These vectorized features were fed into the Logistic Regression models for training.
-
-## Model Training and Evaluation
-Multiple Logistic Regression models were trained with different regularization strengths. The project includes detailed evaluation metrics such as:
-- AUC
-- ROC curves
-- Confusion matrix
-- Misclassification error
-
-Additionally, a RandomForest Classifier was included as a comparative model with hyperparameter tuning using `GridSearchCV`.
-
-## Results
-The results were evaluated based on the following metrics:
-- **AUC Score:** Provides insight into the model's ability to differentiate between positive and negative sentiments.
-- **ROC Curve:** Visualizes the performance of the classification models at different threshold settings.
-- **Confusion Matrix:** Displays true positives, true negatives, false positives, and false negatives.
-- **Misclassification Error:** Measures the rate of incorrect predictions.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repository/logistic-regression-amazon-fine-food-reviews.git
+   cd logistic-regression-amazon-fine-food-reviews
