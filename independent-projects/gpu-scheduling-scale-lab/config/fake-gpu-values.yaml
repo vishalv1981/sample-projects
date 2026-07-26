@@ -1,0 +1,29 @@
+devicePlugin:
+  enabled: true
+statusUpdater:
+  enabled: true
+topologyServer:
+  enabled: true
+statusExporter:
+  enabled: true
+kwokGpuDevicePlugin:
+  enabled: false
+kwokDraPlugin:
+  enabled: false
+kwokComputeDomainDraPlugin:
+  enabled: false
+migFaker:
+  enabled: false
+gpuOperator:
+  enabled: false
+nvidiaDraDriver:
+  enabled: false
+draPlugin:
+  enabled: false
+topology:
+  nodePoolLabelKey: run.ai/simulated-gpu-node-pool
+  nodePools:
+    default:
+      gpuProduct: Tesla-T4
+      gpuCount: 2
+      gpuMemory: 16384

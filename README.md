@@ -6,3 +6,5 @@ This repository collects applied data science and machine learning work by proje
 - [Independent projects](independent-projects/README.md) are kept separate from structured coursework.
 
 Each project directory includes its notebook, supporting data, generated visualizations, and project-specific documentation.
+
+Independent infrastructure work includes the [GPU Scheduling Scale Lab](independent-projects/gpu-scheduling-scale-lab/), a reproducible kind, KWOK, and fake-GPU scheduling simulation.
