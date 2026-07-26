@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fake-gpu-validation
+  namespace: gpu-functional
+  labels:
+    gpu-simulation.example/project: gpu-scheduling-scale-lab
+spec:
+  restartPolicy: Never
+  nodeSelector:
+    run.ai/simulated-gpu-node-pool: default
+  containers:
+    - name: validation
+      image: ubuntu:24.04
+      command: ["/bin/sh", "-c", "nvidia-smi || true; echo simulated-gpu-scheduling-validated; sleep 5"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+        requests:
+          nvidia.com/gpu: 1
