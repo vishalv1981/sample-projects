@@ -9,5 +9,5 @@ grep -q 'restartPolicy: Never' "$manifest"
 readme="$PROJECT_DIR/README.md"
 test "$(grep -c '^```mermaid$' "$readme")" -eq 1
 grep -q '^flowchart TD$' "$readme"
-grep -q 'W\["KWOK controller"\] --> F\["Simulated GPU nodes and pods"\]' "$readme"
+grep -Fq 'W --> F["Simulated GPU nodes and pods"]' "$readme"
 printf 'ok - functional manifest rendering invariants\n'
